@@ -21,7 +21,7 @@ A Python-based market risk project comparing and validating Value-at-Risk (VaR) 
 - Kupiec test
 - Christoffersen test
 
-## Technologies
+## Tools
 
 - Python
 - NumPy
