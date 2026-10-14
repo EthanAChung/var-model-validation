@@ -1,29 +1,23 @@
 import pandas as pd
 from scipy import stats
-from data.data import returns
 
 def annual_mean(returns):
   daily_mean = returns.mean()
-  annual_mean = daily_mean * 252
-  return annual_mean
+  return daily_mean * 252
 
 def volatility(returns):
   daily_vol = returns.std(ddof = 1)
-  annual_vol = daily_vol * (252 ** 0.5)
-  return annual_vol
+  return daily_vol * (252 ** 0.5)
 
 def skewness(returns):
-    skew = stats.skew(returns, bias=False)
-    return skew
+    return stats.skew(returns, bias=False)
 
 def excess_kurtosis(returns):
-    kurtosis = stats.kurtosis(returns, bias=False)
-    return kurtosis
+    return stats.kurtosis(returns, bias=False)
 
 def jarque_bera_test(returns):
     result = stats.jarque_bera(returns)
-    pvalue = result.pvalue
-    return pvalue
+    return result.pvalue
 
 def summary_table(returns):
    return pd.Series({
