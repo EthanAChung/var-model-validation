@@ -53,5 +53,5 @@ def calculate_es(returns, confidence=0.975):
         "Monte Carlo (normal)": monte_carlo_es(returns, confidence),
         "Monte Carlo (t)": monte_carlo_es(returns, confidence, dist="t"),
         "GARCH (normal)": garch_es(returns, confidence),
-        "GARCH (t)": garch_es(returns, confidence, dist="t"),
-        }, name="Expected Shortfall").to_frame()
+        "GARCH (t)": garch_es(returns, confidence, dist="t")}, 
+        name="Expected Shortfall").to_frame()

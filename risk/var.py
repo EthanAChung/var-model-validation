@@ -60,5 +60,5 @@ def calculate_vars(returns, confidence=0.99):
         "Monte Carlo (normal)": monte_carlo_var(returns, confidence),
         "Monte Carlo (t)": monte_carlo_var(returns, confidence, dist="t"),
         "GARCH (normal)": garch_var(returns, confidence),
-        "GARCH (t)": garch_var(returns, confidence, dist="t")
-        }, name = "VaR Estimates").to_frame()
+        "GARCH (t)": garch_var(returns, confidence, dist="t")}, 
+        name = "VaR Estimates").to_frame()
