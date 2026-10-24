@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import norm, t
 from arch import arch_model
-from var import prep
+from risk.var import prep
 
 def historical_es(returns, confidence=0.975):
     rets, alpha = prep(returns, confidence)

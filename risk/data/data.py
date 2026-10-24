@@ -22,7 +22,3 @@ def calculate_returns(prices, weights):
     returns = returns[w.index].dot(w)
     returns.to_csv("returns.csv")
     return returns
-
-data = load_prices()
-returns = calculate_returns(data, {"SPY": 0.3, "QQQ": 0.2, "IEF": 0.3, "GLD": 0.1, "USO": 0.1})
-
