@@ -38,3 +38,21 @@ def backtest_summary(results, confidence=0.99):
             "Breach rate": breaches.mean(),
             "Kupiec p-value": p_uc}
     return pd.DataFrame(rows).T
+
+def christoffersen_test(breaches):
+    b = np.asarray(breaches, dtype=int)
+    prev, curr = b[:-1], b[1:]
+    n00 = int(((prev == 0) & (curr == 0)).sum())
+    n01 = int(((prev == 0) & (curr == 1)).sum())
+    n10 = int(((prev == 1) & (curr == 0)).sum())
+    n11 = int(((prev == 1) & (curr == 1)).sum())
+
+    pi01 = n01 / (n00 + n01) if (n00 + n01) else 0.0
+    pi11 = n11 / (n10 + n11) if (n10 + n11) else 0.0
+    pi = (n01 + n11) / (n00 + n01 + n10 + n11)
+
+    ll_null = xlogy(n00 + n10, 1 - pi) + xlogy(n01 + n11, pi)
+    ll_alt = (xlogy(n00, 1 - pi01) + xlogy(n01, pi01)
+              + xlogy(n10, 1 - pi11) + xlogy(n11, pi11))
+    lr = -2 * (ll_null - ll_alt)
+    return float(lr), float(chi2.sf(lr, df=1))
