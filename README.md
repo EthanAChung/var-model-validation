@@ -42,14 +42,14 @@ For this project various VaR methods (historical, parametric, Monte Carlo, GARCH
 ## How to run 
 1. Clone or download this repo.
 2. Create and activate a virtual environment:
-```bash
-python3 -m venv .venv
-source .venv/bin/activate #windows: .venv/Scripts/Activate
-```
+    ```bash
+    python3 -m venv .venv
+    source .venv/bin/activate #windows: .venv/Scripts/Activate
+    ```
 3. Install the dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+    ```bash
+    pip install -r requirements.txt
+    ```
 4. Open `analysis.ipynb`, and select the `.venv` environment as the notebook kernel, and then run all cells. Prices are downloaded from Yahoo Finance, so an internet connection is needed, and the full backtest takes a few minutes.
 
 ## Use your own portfolio
