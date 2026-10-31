@@ -6,7 +6,6 @@ def load_prices(tickers, start="2015-01-01", end="2025-12-31"):
     data = yf.download(tickers, start, end, auto_adjust=True)
     prices = data["Close"]
     prices = prices.ffill()
-    prices.to_csv("data.csv")
     return prices
 
 def calculate_returns(prices, weights):
@@ -17,5 +16,4 @@ def calculate_returns(prices, weights):
         raise ValueError("Weights cannot be negative") 
     returns = (np.log(prices) - np.log(prices.shift(1))).dropna()
     returns = returns[w.index].dot(w)
-    returns.to_csv("returns.csv")
     return returns
