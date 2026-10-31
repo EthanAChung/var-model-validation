@@ -19,25 +19,12 @@ def rolling_var(returns, var_func, confidence=0.99, window=250, step=1):
 def kupiec_test(breaches, confidence=0.99):
     b = np.asarray(breaches, dtype=bool)
     n, x = len(b), int(b.sum())
-    p = 1 - confidence          # expected breach rate
-    pi = x / n                  # observed breach rate
+    p = 1 - confidence
+    pi = x / n
     ll_null = xlogy(n - x, 1 - p) + xlogy(x, p)
     ll_alt = xlogy(n - x, 1 - pi) + xlogy(x, pi)
     lr = -2 * (ll_null - ll_alt)
     return float(lr), float(chi2.sf(lr, df=1))
-
-def backtest_summary(results, confidence=0.99):
-    rows = {}
-    for name, res in results.items():
-        breaches = res["breach"]
-        lr_uc, p_uc = kupiec_test(breaches, confidence)
-        rows[name] = {
-            "Observations": len(breaches),
-            "Breaches": int(breaches.sum()),
-            "Expected breaches": len(breaches) * (1 - confidence),
-            "Breach rate": breaches.mean(),
-            "Kupiec p-value": p_uc}
-    return pd.DataFrame(rows).T
 
 def christoffersen_test(breaches):
     b = np.asarray(breaches, dtype=int)
@@ -56,3 +43,18 @@ def christoffersen_test(breaches):
               + xlogy(n10, 1 - pi11) + xlogy(n11, pi11))
     lr = -2 * (ll_null - ll_alt)
     return float(lr), float(chi2.sf(lr, df=1))
+
+def backtest_summary(results, confidence=0.99):
+    rows = {}
+    for name, res in results.items():
+        breaches = res["breach"]
+        lr_uc, p_uc = kupiec_test(breaches, confidence)
+        lr_ind, p_ind = christoffersen_test(breaches)
+        rows[name] = {
+            "Observations": len(breaches),
+            "Breaches": int(breaches.sum()),
+            "Expected breaches": len(breaches) * (1 - confidence),
+            "Breach rate": f"{breaches.mean():.3f}",
+            "Kupiec p-value": f"{p_uc:.3f}",
+            "Christoffersen p-value": f"{p_ind:.3f}"}
+    return pd.DataFrame(rows).T

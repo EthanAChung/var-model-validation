@@ -2,17 +2,14 @@ import numpy as np
 import pandas as pd
 import yfinance as yf
 
-tickers = ["SPY", "QQQ", "IEF", "GLD", "USO"]
-
-def load_prices():
-    data = yf.download(tickers, start="2015-01-01", end="2025-12-31", auto_adjust=True)
+def load_prices(tickers, start="2015-01-01", end="2025-12-31"):
+    data = yf.download(tickers, start, end, auto_adjust=True)
     prices = data["Close"]
     prices = prices.ffill()
     prices.to_csv("data.csv")
     return prices
 
 def calculate_returns(prices, weights):
-    # weights is a dict like {"SPY": 0.5, "QQQ": 0.5}
     w = pd.Series(weights)
     if not np.isclose(w.sum(), 1.0):
         raise ValueError("Weights must sum to 1")
